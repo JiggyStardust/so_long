@@ -4,4 +4,5 @@ Project start: 29.10.
 
 Goal: Understand what this project and minilibx is about, create a Makefile and project folder.
 
-
+Outcome: Decided to use Codam's creation MLX42 instead or MiniLibX, as many suggested it's just clearer, better and updated.
+Created a Makefile which clones MLX42 repo and builds the library if those steps aren't already done. It also prompts the user to install necessary packages in case they're not installed. This is for Linux-environment.
