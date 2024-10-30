@@ -6,16 +6,18 @@
 #    By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 13:33:02 by sniemela          #+#    #+#              #
-#    Updated: 2024/10/29 14:53:25 by sniemela         ###   ########.fr        #
+#    Updated: 2024/10/30 16:32:44 by sniemela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
 CFLAGS = -Wall -Werror -Wextra
+LDFLAGS = -lglfw
 CC = gcc
 
-SOURCES =  so_long.c \
+
+SOURCES =  so_long.c
 		
 OBJS = $(SOURCES:.c=.o)
 
@@ -40,14 +42,16 @@ all: check_packages $(NAME)
 check_packages:
 	@if ! $(CHECK_PACKAGES_CMD) > /dev/null; then \
 		echo "$(CYAN_BOLD)Required packages not installed.$(ANSI_RESET)"; \
-		echo @"\n\nPlease insall: $(REQUIRED_PACKAGES)"; \
+		echo "\n\nPlease install: $(REQUIRED_PACKAGES)"; \
 		exit 1; \
 	fi
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX42_LIB)
 	@echo "Linking $(NAME)..."
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX42_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX42_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(HIB_GREEN)$(NAME) has been successfully built!$(ANSI_RESET)"
+
+$(OBJS): clone_MLX42 $(MLX42_LIB)
 
 %.o: %.c
 	@echo "Compiling included files..."
