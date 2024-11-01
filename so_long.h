@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:36:09 by sniemela          #+#    #+#             */
-/*   Updated: 2024/10/30 16:38:37 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/01 15:55:21 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,9 @@
 // # define COIN 'C'
 // # define PLAYER 'P'
 // # define EXIT 'E'
+
+char	**create_map(char *path_to_map);
+int		valid_map(char **map);
+void	free_map(char **array);
 
 #endif

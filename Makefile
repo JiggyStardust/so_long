@@ -6,7 +6,7 @@
 #    By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 13:33:02 by sniemela          #+#    #+#              #
-#    Updated: 2024/10/30 16:32:44 by sniemela         ###   ########.fr        #
+#    Updated: 2024/10/31 11:01:16 by sniemela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ LDFLAGS = -lglfw
 CC = gcc
 
 
-SOURCES =  so_long.c
+SOURCES =  so_long.c \
+			map_handling/construct_map.c \
+			map_handling/map_validity.c \
 		
 OBJS = $(SOURCES:.c=.o)
 
