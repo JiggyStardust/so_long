@@ -6,7 +6,7 @@
 #    By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 13:33:02 by sniemela          #+#    #+#              #
-#    Updated: 2024/11/04 14:44:57 by sniemela         ###   ########.fr        #
+#    Updated: 2024/11/04 16:56:10 by sniemela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX42_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX42_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(HIB_GREEN)$(NAME) has been successfully built!$(ANSI_RESET)"
 
-$(OBJS): clone_MLX42 $(MLX42_LIB)
+$(OBJS): $(MLX42_LIB)
 
 %.o: %.c
 	@echo "Compiling included files..."
@@ -65,20 +65,20 @@ $(LIBFT):
 	@echo "Building libft..."
 	make -C $(LIBFT_DIR)
 
-clone_MLX42:
-	@if [ ! -d "$(MLX42_DIR)" ] || [ -z "$$(ls -A $(MLX42_DIR))" ]; then \
-		echo "Cloning MLX42..." ; \
-		git clone https://github.com/codam-coding-college/MLX42.git; \
-	else \
-		echo "$(CYAN_BOLD)MLX42 already exists, skipping clone.$(ANSI_RESET)"; \
-	fi
-
 $(MLX42_LIB): clone_MLX42
 	@if [ ! -f "$(MLX42_LIB)" ]; then \
 		echo "Building MLX42 library..."; \
 		cd $(MLX42_DIR) && cmake -B build && cmake --build build -j4; \
 	else \
 		echo "$(CYAN_BOLD)MLX42 library is up-to-date, skipping build.$(ANSI_RESET)"; \
+	fi
+
+clone_MLX42:
+	@if [ ! -d "$(MLX42_DIR)" ] || [ -z "$$(ls -A $(MLX42_DIR))" ]; then \
+		echo "Cloning MLX42..." ; \
+		git clone https://github.com/codam-coding-college/MLX42.git; \
+	else \
+		echo "$(CYAN_BOLD)MLX42 already exists, skipping clone.$(ANSI_RESET)"; \
 	fi
 
 $(MLX42_DIR):

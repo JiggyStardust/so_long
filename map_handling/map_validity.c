@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/04 14:48:07 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:38:56 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ static int	one_exit(char **map)
 			if (map[i][j] == 'E')
 				e++;
 			if (e > 1)
+			{
+				ft_printf("There's %d exits, while there should be only 1.", e);
 				return (0);
+			}
 			j++;
 		}
 		i++;
 	}
+	if (e == 0)
+		ft_printf("There isn't an exit, tough luck...\n");
 	return (e); // (either 0 or 1)
 }
 
@@ -52,7 +57,10 @@ static int	one_player(char **map)
 			if (map[i][j] == 'P')
 				p++;
 			if (p > 1)
+			{
+				ft_printf("There's %d players, while there should be only 1.\n", p);
 				return (0);
+			}
 			j++;
 		}
 		i++;
@@ -78,6 +86,8 @@ static int	collectives(char **map)
 		}
 		i++;
 	}
+	if (c < 1)
+		ft_printf("Not enough collectives!\n");
 	return (c); // (either 0 or more)
 }
 
@@ -93,11 +103,17 @@ static int	rectangular(char **map)
 	while (map[i] != NULL)
 	{
 		if (len != (int)ft_strlen(map[i]))
+		{
+			ft_printf("Map isn't rectangular.\n");
 			return (0);
+		}
 		i++;
 	}
 	if (i < 3)
+	{
+		ft_printf("Map is too short.\n");
 		return (0);
+	}
 	return (1);
 }
 
@@ -106,25 +122,8 @@ int	valid_map(char **map)
 	int ret;
 	
 	ret = 1;
-	if (!rectangular(map))
-	{
-		ft_printf("Map isn't rectangular or it's too short!\n");
+	if (!rectangular(map) || !collectives(map) || !one_player(map) ||
+		!one_exit(map))
 		ret = 0;
-	}
-	if (!collectives(map))
-	{
-		ft_printf("Not enough collectives!\n");
-		ret = 0;
-	}
-	if (!one_player(map))
-	{
-		ft_printf("We should have (only) one player on the map!\n");
-		ret = 0;
-	}
-	if (!one_exit(map))
-	{
-		ft_printf("Map should have (only) one exit!\n");
-		ret = 0;
-	}
 	return (ret);
 }
