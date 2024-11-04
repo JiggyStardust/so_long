@@ -6,7 +6,7 @@
 #    By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 13:33:02 by sniemela          #+#    #+#              #
-#    Updated: 2024/10/31 11:01:16 by sniemela         ###   ########.fr        #
+#    Updated: 2024/11/04 14:44:57 by sniemela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ CC = gcc
 SOURCES =  so_long.c \
 			map_handling/construct_map.c \
 			map_handling/map_validity.c \
+			map_handling/map_playable.c \
+			map_handling/flood_map.c
 		
 OBJS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:34:24 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/01 16:00:44 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/04 14:51:52 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,21 @@ void	free_map(char **array)
 int main(int ac, char **av)
 {
 	char	**map;
-	int		i = 0;
 
 	if (ac != 2)
 		return (0);
 	map = create_map(av[1]);
-	if (!valid_map(map))
+	if (!map || !valid_map(map))
+	{
+		ft_printf("Invalid map!\n");
 		free_map(map);
-	while (map[i++] != NULL)
-		ft_printf("%s", map[i]);
+		return (0);
+	}
+	if (!playable_map(map))
+	{
+		free_map(map);
+		return(0);
+	}
 	free_map(map);
 	return (0);
 }

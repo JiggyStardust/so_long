@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/01 15:56:30 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/04 14:48:07 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,15 @@ static int	one_exit(char **map)
 	while (map[i] != NULL)
 	{
 		j = 0;
-		if (map[i][j] == 'E')
-			e++;
-		if (e > 1)
-			return (0);
+		while (map[i][j] != '\0')
+		{
+			if (map[i][j] == 'E')
+				e++;
+			if (e > 1)
+				return (0);
+			j++;
+		}
+		i++;
 	}
 	return (e); // (either 0 or 1)
 }
@@ -42,10 +47,15 @@ static int	one_player(char **map)
 	while (map[i] != NULL)
 	{
 		j = 0;
-		if (map[i][j] == 'P')
-			p++;
-		if (p > 1)
-			return (0);
+		while (map[i][j] != '\0')
+		{
+			if (map[i][j] == 'P')
+				p++;
+			if (p > 1)
+				return (0);
+			j++;
+		}
+		i++;
 	}
 	return (p); // (either 0 or 1)
 }
@@ -76,28 +86,45 @@ static int	rectangular(char **map)
 	int	len;
 	int	i;
 
+	if (!map || !map[0])
+		return (0);
 	i = 0;
 	len = ft_strlen(map[i]);
 	while (map[i] != NULL)
 	{
-		i++;
 		if (len != (int)ft_strlen(map[i]))
 			return (0);
+		i++;
 	}
-	if (i < 3) // height too short;
+	if (i < 3)
 		return (0);
 	return (1);
 }
 
 int	valid_map(char **map)
 {
+	int ret;
+	
+	ret = 1;
 	if (!rectangular(map))
-		return (0);
+	{
+		ft_printf("Map isn't rectangular or it's too short!\n");
+		ret = 0;
+	}
 	if (!collectives(map))
-		return (0);
+	{
+		ft_printf("Not enough collectives!\n");
+		ret = 0;
+	}
 	if (!one_player(map))
-		return (0);
+	{
+		ft_printf("We should have (only) one player on the map!\n");
+		ret = 0;
+	}
 	if (!one_exit(map))
-		return (0);
-	return (1);
+	{
+		ft_printf("Map should have (only) one exit!\n");
+		ret = 0;
+	}
+	return (ret);
 }
