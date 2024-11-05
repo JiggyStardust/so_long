@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:42:08 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/04 14:44:28 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:41:56 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	flood_the_map(char **map)
 
 	player_x = 0;
 	player_y = 0;
-	while (!ft_strchr(map[player_y], 'P'))
+	while (!ft_strchr(map[player_y], 'P') && map[player_y] != NULL)
 		player_y++;
 	while (map[player_y][player_x] != 'P')
 		player_x++;

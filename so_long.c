@@ -6,20 +6,15 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:34:24 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/04 14:51:52 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:38:54 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "so_long.h"
 
 #include "so_long.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#define WIDTH 512
-#define HEIGHT 512
 
 // static mlx_image_t* image;
 
@@ -113,24 +108,191 @@ void	free_map(char **array)
 	array = NULL;
 }
 
+int	get_width(char **map, int tile)
+{
+	int	width;
+
+	width = (int)ft_strlen(map[0]) * tile;
+	return (width);
+}
+
+int	get_height(char **map, int tile)
+{
+	int	i;
+	int	height;
+
+	i = 0;
+	while (map[i] != NULL)
+		i++;
+	height = i * tile;
+	return (height);
+}
+
+bool setup_textures(t_solong *solong)
+{
+	solong->p_text = mlx_load_png("images/player.png");
+	if (!solong->p_text)
+		return (false);
+	solong->f_text = mlx_load_png("images/floor.png");
+	if(!solong->f_text)
+		return (false);
+	solong->w_text = mlx_load_png("images/wall.png");
+	if(!solong->w_text)
+		return (false);
+	solong->c_text = mlx_load_png("images/collectible.png");
+	if (!solong->c_text)
+		return (false);
+	solong->e_text = mlx_load_png("images/exit.png");
+	if (!solong->e_text)
+		return (false);
+	return (true);
+}
+
+bool setup_images(t_solong *solong)
+{
+	solong->p_img = mlx_texture_to_image(solong->mlx, solong->p_text);
+	if (!solong->p_img)
+		return (false);
+	solong->f_img = mlx_texture_to_image(solong->mlx, solong->f_text);
+	if (!solong->f_img)
+		return (false);
+	solong->w_img = mlx_texture_to_image(solong->mlx, solong->w_text);
+	if (!solong->w_img)
+		return (false);
+	solong->c_img = mlx_texture_to_image(solong->mlx, solong->c_text);
+	if (!solong->c_img)
+		return (false);
+	solong->c_img = mlx_texture_to_image(solong->mlx, solong->c_text);
+	if (!solong->c_img)
+		return (false);
+	return (true);
+}
+void	delete_images(t_solong *solong)
+{
+	if (solong->p_img)
+		mlx_delete_image(solong->mlx, solong->p_img);
+	if (solong->f_img)
+		mlx_delete_image(solong->mlx, solong->f_img);
+	if (solong->w_img)
+		mlx_delete_image(solong->mlx, solong->w_img);
+	if (solong->c_img)
+		mlx_delete_image(solong->mlx, solong->c_img);
+	if (solong->e_img)
+		mlx_delete_image(solong->mlx, solong->e_img);
+}
+
+void	delete_textures(t_solong *solong)
+{
+	if (solong->p_text)
+		mlx_delete_texture(solong->p_text);
+	if (solong->f_text)
+		mlx_delete_texture(solong->f_text);
+	if (solong->w_text)
+		mlx_delete_texture(solong->w_text);
+	if (solong->c_text)
+		mlx_delete_texture(solong->c_text);
+	if (solong->e_text)
+		mlx_delete_texture(solong->e_text);
+}
+
+void	terminate_free(t_solong *solong, int error, char *message)
+{
+	if (solong->map)
+		free_map(solong->map);
+	delete_textures(solong);
+	delete_images(solong);
+	if (solong->mlx)
+		mlx_terminate(solong->mlx);
+	if (error)
+	{
+		perror(message);
+		exit(EXIT_FAILURE);
+	}
+	else
+		exit(EXIT_SUCCESS);
+}
+
+int		get_player_x(char **map, int y)
+{
+	int	x;
+
+	x = 0;
+	while (map[y][x] != '\0')
+	{
+		if (map[y][x] == 'P')
+			break ;
+		x++;
+	}
+	return (x);
+}
+int		get_player_y(char **map)
+{
+	int	y;
+
+	y = 0;
+	while (map[y] != NULL)
+	{
+		if (ft_strchr(map[y], 'P'))
+			break ;
+		y++;
+	}
+	return (y);
+}
+
+static bool	init_solong(t_solong *solong, char *path_to_map, int tile_size)
+{
+	if (!(solong->map = create_map(path_to_map)))
+		return (false);
+	if (!valid_map(solong->map) || !playable_map(solong->map))
+		return (false);
+	solong->width = get_width(solong->map, tile_size);
+	solong->height = get_height(solong->map, tile_size);
+	if (!(solong->mlx = mlx_init(solong->width, solong->height, "so_long", true)))
+		return (false);
+	solong->player_y = get_player_y(solong->map);
+	solong->player_x = get_player_x(solong->map, solong->player_y);
+	return (true);
+}
+
+// int main(int ac, char **av)
+// {
+// 	t_solong	solong;
+
+// 	if (ac != 2)
+// 		return (0);
+// 	solong.map = create_map(av[1]);
+// 	if (!solong.map)
+// 		return (1);
+// 	if (!valid_map(solong.map) || !playable_map(solong.map))
+// 	{
+// 		free_map(solong.map);
+// 		return(0);
+// 	}
+// 	solong.width = get_width(solong.map, TILE_SIZE);
+// 	solong.height = get_height(solong.map, TILE_SIZE);
+// 	if (!(solong.mlx = mlx_init(solong.width, solong.height, "so_long", true)))
+// 	{
+// 		free_map(solong.map);
+// 		return (1);
+// 	}
+// 	if !(setup_images(&solong));
+// 		terminate_free(&solong, 1, "Error\nProblem with loading images.");
+// 	terminate_free(&solong);
+// 	return (0);
+// }
+
 int main(int ac, char **av)
 {
-	char	**map;
+	t_solong	solong;
 
 	if (ac != 2)
 		return (0);
-	map = create_map(av[1]);
-	if (!map || !valid_map(map))
-	{
-		ft_printf("Invalid map!\n");
-		free_map(map);
-		return (0);
-	}
-	if (!playable_map(map))
-	{
-		free_map(map);
-		return(0);
-	}
-	free_map(map);
+	if (!init_solong(&solong, av[1], TILE_SIZE))
+		terminate_free(&solong, 1, "Error\nCannot initialize the game.");
+	if (!setup_textures(&solong))
+		terminate_free(&solong, 1, "Error\nProblem with loading textures.");
+	if (!setup_images(&solong))
+		terminate_free(&solong, 1, "Error\nProblem with converting textures to images.");
+	terminate_free(&solong, 0, '\0');
 	return (0);
 }

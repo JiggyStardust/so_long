@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:51 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/04 14:43:48 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:25:26 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int	playable_map(char **map)
 	ret = 1;
 	if (!collectives_reachable(map_copy))
 	{
-		ft_printf("All the collectives aren't reachable, no point in playing!\n");
+		ft_printf("Error\nAll the collectives aren't reachable, no point in playing!\n");
 		ret = 0;
 	}
 	if (!exit_reachable(map_copy))
 	{
-		ft_printf("The exit isn't reachable, no point in playing!\n");
+		ft_printf("Error\nThe exit isn't reachable, no point in playing!\n");
 		ret = 0;
 	}
 	free_map(map_copy);

@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/04 15:38:56 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:25:01 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	one_exit(char **map)
 				e++;
 			if (e > 1)
 			{
-				ft_printf("There's %d exits, while there should be only 1.", e);
+				ft_printf("Error\nThere's %d exits, while there should be only 1.", e);
 				return (0);
 			}
 			j++;
@@ -37,7 +37,7 @@ static int	one_exit(char **map)
 		i++;
 	}
 	if (e == 0)
-		ft_printf("There isn't an exit, tough luck...\n");
+		ft_printf("Error\nThere isn't an exit, tough luck...\n");
 	return (e); // (either 0 or 1)
 }
 
@@ -58,7 +58,7 @@ static int	one_player(char **map)
 				p++;
 			if (p > 1)
 			{
-				ft_printf("There's %d players, while there should be only 1.\n", p);
+				ft_printf("Error\nThere's %d players, while there should be only 1.\n", p);
 				return (0);
 			}
 			j++;
@@ -87,7 +87,7 @@ static int	collectives(char **map)
 		i++;
 	}
 	if (c < 1)
-		ft_printf("Not enough collectives!\n");
+		ft_printf("Error\nNot enough collectives!\n");
 	return (c); // (either 0 or more)
 }
 
@@ -104,14 +104,14 @@ static int	rectangular(char **map)
 	{
 		if (len != (int)ft_strlen(map[i]))
 		{
-			ft_printf("Map isn't rectangular.\n");
+			ft_printf("Error\nMap isn't rectangular.\n");
 			return (0);
 		}
 		i++;
 	}
 	if (i < 3)
 	{
-		ft_printf("Map is too short.\n");
+		ft_printf("Error\nMap is too short.\n");
 		return (0);
 	}
 	return (1);
