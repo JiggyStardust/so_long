@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:36:09 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/05 16:28:10 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/06 09:47:02 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,28 @@ typedef struct s_solong
 	bool			game_over;
 }	t_solong;
 
+// Map handling
+
 char	**create_map(char *path_to_map);
-int		valid_map(char **map);
-void	free_map(char **array);
-int		playable_map(char **map);
 void	flood_the_map(char **map);
+int		playable_map(char **map);
+int		valid_map(char **map);
+
+// Setting up images
+bool 	setup_images(t_solong *solong);
+bool 	setup_textures(t_solong *solong);
+
+// freeing and deleting
+void	delete_images(t_solong *solong);
+void	delete_textures(t_solong *solong);
+void	free_map(char **array);
+void	terminate_free(t_solong *solong, int error, char *message);
+
+// Initializing so_long
+bool	init_solong(t_solong *solong, char *path_to_map, int tile_size);
+int		get_player_x(char **map, int y);
+int		get_player_y(char **map);
+int		get_height(char **map, int tile);
+int		get_width(char **map, int tile);
 
 #endif
