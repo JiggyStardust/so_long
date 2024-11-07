@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:36:09 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/06 09:47:02 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:09:51 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_solong
 	int				player_x;
 	int				player_y;
 	int				collectibles;
-	bool			game_over;
+	bool			can_exit;
 }	t_solong;
 
 // Map handling
@@ -58,6 +58,7 @@ int		valid_map(char **map);
 // Setting up images
 bool 	setup_images(t_solong *solong);
 bool 	setup_textures(t_solong *solong);
+bool 	images_to_window(t_solong *solong);
 
 // freeing and deleting
 void	delete_images(t_solong *solong);
