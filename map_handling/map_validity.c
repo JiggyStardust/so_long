@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/05 15:25:01 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:20:15 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	one_exit(char **map)
 	}
 	if (e == 0)
 		ft_printf("Error\nThere isn't an exit, tough luck...\n");
-	return (e); // (either 0 or 1)
+	return (e);
 }
 
 static int	one_player(char **map)
@@ -65,30 +65,28 @@ static int	one_player(char **map)
 		}
 		i++;
 	}
-	return (p); // (either 0 or 1)
+	return (p);
 }
 
-static int	collectives(char **map)
+static int	collectives(t_solong *solong)
 {
-	int c;
 	int	i;
 	int	j;
 	
 	i = 0;
-	c = 0;
-	while (map[i] != NULL)
+	while (solong->map[i] != NULL)
 	{
 		j = 0;
-		while (map[i][j++] != '\0')
+		while (solong->map[i][j++] != '\0')
 		{
-			if (map[i][j] == 'C')
-				c++;
+			if (solong->map[i][j] == 'C')
+				solong->collectibles++;
 		}
 		i++;
 	}
-	if (c < 1)
-		ft_printf("Error\nNot enough collectives!\n");
-	return (c); // (either 0 or more)
+	if (solong->collectibles < 1)
+		ft_printf("Error\nNot enough collectibles!\n");
+	return (solong->collectibles);
 }
 
 static int	rectangular(char **map)
@@ -117,13 +115,13 @@ static int	rectangular(char **map)
 	return (1);
 }
 
-int	valid_map(char **map)
+int	valid_map(t_solong *solong)
 {
 	int ret;
 	
 	ret = 1;
-	if (!rectangular(map) || !collectives(map) || !one_player(map) ||
-		!one_exit(map))
+	if (!rectangular(solong->map) || !collectives(solong) || !one_player(solong->map) ||
+		!one_exit(solong->map))
 		ret = 0;
 	return (ret);
 }

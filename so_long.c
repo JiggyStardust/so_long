@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:34:24 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/07 15:45:09 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:17:03 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void	close_window(void *param)
 	terminate_free(solong, 0, NULL);
 	exit(0);
 }
+
 bool	valid_move(t_solong *solong, int x, int y)
 {
 	if (solong->map[y][x] == '1')
@@ -194,23 +195,26 @@ bool	move_player(t_solong *solong, int x, int y)
 {
 	int	x_new;
 	int	y_new;
+	mlx_image_t	*img;
 
 	x_new = solong->player_x + x;
 	y_new = solong->player_y + y;
-	if !(valid_move(solong, x_new, y_new))
+	if (!valid_move(solong, x_new, y_new))
 		return (false);
 	if (solong->map[y_new][x_new] == 'C')
-	{
 		solong->collectibles--;
-		solong->map[y_new][x_new] = '0';
-	}
-	if (solong->map[solong->player_x][solong->player_y] == 'E') // 'E' pos should be stored in struct for this check, add later, this doesn't work
-		solong->map[solong->player_x][solong->player_y] = 'E';
+	if (solong->player_y == solong->exit_y && solong->player_x == solong->exit_x)
+		img = solong->e_img;
 	else
-		solong->map[solong->player_x][solong->player_y] = '0';
-// THIS IS TOTALLY UNFINISHED, NEEDED TO LEAVE HOME EARLY :)
-// TO BE CONT. ON FRI 8/11
-
+		img = solong->f_img;
+	if (mlx_image_to_window(solong->mlx, img, solong->player_x * TILE_SIZE, solong->player_y * TILE_SIZE) == -1)
+		terminate_free(solong, 1, "Error\nCouldn't render image.\n");
+	solong->map[y_new][x_new] = 'P';
+	if (mlx_image_to_window(solong->mlx, solong->p_img, x_new * TILE_SIZE, y_new * TILE_SIZE) == -1)
+		terminate_free(solong, 1, "Error\nCouldn't render image.\n");
+	solong->player_x = x_new;
+	solong->player_y = y_new;
+	return (true);
 }
 
 void	key_hook(void *param)
@@ -254,6 +258,7 @@ int main(int ac, char **av)
 		terminate_free(&solong, 1, "Error\nProblem with converting textures to images.\n");
 	if (!images_to_window(&solong))
 		terminate_free(&solong, 1, "Error\nProblem with opening the window.\n");
+	
 	mlx_loop_hook(solong.mlx, key_hook, &solong);
 	mlx_close_hook(solong.mlx, close_window, &solong);
 	mlx_loop(solong.mlx);
