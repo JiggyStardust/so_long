@@ -6,22 +6,22 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:31:46 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/06 15:29:19 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:36:43 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-bool setup_textures(t_solong *solong)
+bool	setup_textures(t_solong *solong)
 {
 	solong->p_text = mlx_load_png("./images/player.png");
 	if (!solong->p_text)
 		return (false);
 	solong->f_text = mlx_load_png("./images/floor.png");
-	if(!solong->f_text)
+	if (!solong->f_text)
 		return (false);
 	solong->w_text = mlx_load_png("./images/wall.png");
-	if(!solong->w_text)
+	if (!solong->w_text)
 		return (false);
 	solong->c_text = mlx_load_png("./images/collectable.png");
 	if (!solong->c_text)
@@ -31,7 +31,8 @@ bool setup_textures(t_solong *solong)
 		return (false);
 	return (true);
 }
-bool setup_images(t_solong *solong)
+
+bool	setup_images(t_solong *solong)
 {
 	solong->p_img = mlx_texture_to_image(solong->mlx, solong->p_text);
 	if (!solong->p_img)

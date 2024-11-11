@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:42:08 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/05 15:41:56 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:31:45 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	flood_fill(char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || map[y] == NULL || map[y][x] == '\0' ||
 		map[y][x] == 'F' || map[y][x] == '1')
-			return ;
+		return ;
 	map[y][x] = 'F';
 	flood_fill(map, x + 1, y);
 	flood_fill(map, x - 1, y);

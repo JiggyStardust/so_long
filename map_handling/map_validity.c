@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/08 12:20:15 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:57:23 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static int	one_exit(char **map)
 {
-	int e;
+	int	e;
 	int	i;
 	int	j;
-	
+
 	e = 0;
 	i = 0;
 	while (map[i] != NULL)
@@ -27,26 +27,26 @@ static int	one_exit(char **map)
 		{
 			if (map[i][j] == 'E')
 				e++;
-			if (e > 1)
-			{
-				ft_printf("Error\nThere's %d exits, while there should be only 1.", e);
-				return (0);
-			}
 			j++;
 		}
 		i++;
 	}
 	if (e == 0)
 		ft_printf("Error\nThere isn't an exit, tough luck...\n");
+	if (e > 1)
+	{
+		ft_printf("Error\nThere's %d exits instead of one.", e);
+		return (0);
+	}
 	return (e);
 }
 
 static int	one_player(char **map)
 {
-	int p;
+	int	p;
 	int	i;
 	int	j;
-	
+
 	p = 0;
 	i = 0;
 	while (map[i] != NULL)
@@ -58,7 +58,8 @@ static int	one_player(char **map)
 				p++;
 			if (p > 1)
 			{
-				ft_printf("Error\nThere's %d players, while there should be only 1.\n", p);
+				ft_printf("Error\nThere's %d players, ", p);
+				ft_printf("while there should be only 1.\n");
 				return (0);
 			}
 			j++;
@@ -72,7 +73,7 @@ static int	collectives(t_solong *solong)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (solong->map[i] != NULL)
 	{
@@ -80,13 +81,13 @@ static int	collectives(t_solong *solong)
 		while (solong->map[i][j++] != '\0')
 		{
 			if (solong->map[i][j] == 'C')
-				solong->collectibles++;
+				solong->coll++;
 		}
 		i++;
 	}
-	if (solong->collectibles < 1)
+	if (solong->coll < 1)
 		ft_printf("Error\nNot enough collectibles!\n");
-	return (solong->collectibles);
+	return (solong->coll);
 }
 
 static int	rectangular(char **map)
@@ -117,11 +118,11 @@ static int	rectangular(char **map)
 
 int	valid_map(t_solong *solong)
 {
-	int ret;
-	
+	int	ret;
+
 	ret = 1;
-	if (!rectangular(solong->map) || !collectives(solong) || !one_player(solong->map) ||
-		!one_exit(solong->map))
+	if (!rectangular(solong->map) || !collectives(solong)
+		|| !one_player(solong->map) || !one_exit(solong->map))
 		ret = 0;
 	return (ret);
 }

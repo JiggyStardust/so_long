@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:09:51 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/05 15:25:26 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:30:53 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**copy_map(char **src)
 	j = 0;
 	while (src[i] != NULL)
 		i++;
-	dest = (char **)malloc(sizeof(char *)*(i + 1));
+	dest = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!dest)
 		return (NULL);
 	while (src[j] != NULL)
@@ -68,19 +68,6 @@ static char	**copy_map(char **src)
 	return (dest);
 }
 
-static void	print_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	ft_printf("\nFlood filled map:\n");
-	while (map[i] != NULL)
-	{
-		ft_printf("%s\n", map[i]);
-		i++;
-	}
-}
-
 int	playable_map(char **map)
 {
 	char	**map_copy;
@@ -90,16 +77,15 @@ int	playable_map(char **map)
 	if (!map_copy)
 		return (0);
 	flood_the_map(map_copy);
-	print_map(map_copy);	// to check whether flood_fill works
 	ret = 1;
 	if (!collectives_reachable(map_copy))
 	{
-		ft_printf("Error\nAll the collectives aren't reachable, no point in playing!\n");
+		ft_printf("Error\nAll the collectibles aren't reachable!\n");
 		ret = 0;
 	}
 	if (!exit_reachable(map_copy))
 	{
-		ft_printf("Error\nThe exit isn't reachable, no point in playing!\n");
+		ft_printf("Error\nThe exit isn't reachable, can't win!\n");
 		ret = 0;
 	}
 	free_map(map_copy);

@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:36:09 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/08 12:10:54 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:03:24 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@
 # include <stdbool.h>
 # include <errno.h>
 
-// # define WALL 1
-// # define TEXT 0
-// # define COIN 'C'
-// # define PLAYER 'P'
-// # define EXIT 'E'
-
-# define TILE_SIZE 32
+# define TILE 32
 
 typedef struct s_solong
 {
@@ -42,25 +36,26 @@ typedef struct s_solong
 	char			**map;
 	int				width;
 	int				height;
-	int				player_x;
-	int				player_y;
-	int				exit_x;
-	int				exit_y;
-	int				collectibles;
+	int				p_x;
+	int				p_y;
+	int				e_x;
+	int				e_y;
+	int				coll;
+	int				moves;
 	bool			can_exit;
 }	t_solong;
 
 // Map handling
 
-char	**create_map(char *path_to_map);
+char	**create_map(char *path);
 void	flood_the_map(char **map);
 int		playable_map(char **map);
 int		valid_map(t_solong *solong);
 
 // Setting up images
-bool 	setup_images(t_solong *solong);
-bool 	setup_textures(t_solong *solong);
-bool 	images_to_window(t_solong *solong);
+bool	setup_images(t_solong *solong);
+bool	setup_textures(t_solong *solong);
+bool	images_to_window(t_solong *solong);
 
 // freeing and deleting
 void	delete_images(t_solong *solong);
@@ -68,8 +63,13 @@ void	delete_textures(t_solong *solong);
 void	free_map(char **array);
 void	terminate_free(t_solong *solong, int error, char *message);
 
+// moving the player
+bool	move_player(t_solong *solong, int x, int y);
+
 // Initializing so_long
 bool	init_solong(t_solong *solong, char *path_to_map, int tile_size);
+int		get_exit_x(char **map, int y);
+int		get_exit_y(char **map);
 int		get_player_x(char **map, int y);
 int		get_player_y(char **map);
 int		get_height(char **map, int tile);

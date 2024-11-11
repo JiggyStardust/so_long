@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:41:03 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/08 12:19:32 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:02:17 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,60 +32,6 @@ int	get_height(char **map, int tile)
 	return (height);
 }
 
-int		get_player_x(char **map, int y)
-{
-	int	x;
-
-	x = 0;
-	while (map[y][x] != '\0')
-	{
-		if (map[y][x] == 'P')
-			break ;
-		x++;
-	}
-	return (x);
-}
-int		get_player_y(char **map)
-{
-	int	y;
-
-	y = 0;
-	while (map[y] != NULL)
-	{
-		if (ft_strchr(map[y], 'P'))
-			break ;
-		y++;
-	}
-	return (y);
-}
-
-int		get_exit_x(char **map, int y)
-{
-	int	x;
-
-	x = 0;
-	while (map[y][x] != '\0')
-	{
-		if (map[y][x] == 'E')
-			break ;
-		x++;
-	}
-	return (x);
-}
-int		get_exit_y(char **map)
-{
-	int	y;
-
-	y = 0;
-	while (map[y] != NULL)
-	{
-		if (ft_strchr(map[y], 'E'))
-			break ;
-		y++;
-	}
-	return (y);
-}
-
 void	start_init(t_solong *solong)
 {
 	solong->mlx = NULL;
@@ -102,28 +48,31 @@ void	start_init(t_solong *solong)
 	solong->map = NULL;
 	solong->width = 0;
 	solong->height = 0;
-	solong->player_x = 0;
-	solong->player_y = 0;
-	solong->exit_x = 0;
-	solong->exit_y = 0;
-	solong->collectibles = 0;
+	solong->p_x = 0;
+	solong->p_y = 0;
+	solong->e_x = 0;
+	solong->e_y = 0;
+	solong->coll = 0;
+	solong->moves = 0;
 	solong->can_exit = false;
 }
 
 bool	init_solong(t_solong *solong, char *path_to_map, int tile_size)
 {
 	start_init(solong);
-	if (!(solong->map = create_map(path_to_map)))
+	solong->map = create_map(path_to_map);
+	if (!solong->map)
 		return (false);
 	if (!valid_map(solong) || !playable_map(solong->map))
 		return (false);
 	solong->width = get_width(solong->map, tile_size);
 	solong->height = get_height(solong->map, tile_size);
-	if (!(solong->mlx = mlx_init(solong->width, solong->height, "so_long", true)))
+	solong->mlx = mlx_init(solong->width, solong->height, "so_long", true);
+	if (!solong->mlx)
 		return (false);
-	solong->player_y = get_player_y(solong->map);
-	solong->player_x = get_player_x(solong->map, solong->player_y);
-	solong->exit_y = get_exit_y(solong->map);
-	solong->exit_x = get_exit_x(solong->map, solong->exit_y);
+	solong->p_y = get_player_y(solong->map);
+	solong->p_x = get_player_x(solong->map, solong->p_y);
+	solong->e_y = get_exit_y(solong->map);
+	solong->e_x = get_exit_x(solong->map, solong->e_y);
 	return (true);
 }

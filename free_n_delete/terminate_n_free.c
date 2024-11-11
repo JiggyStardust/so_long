@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:39:15 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/06 09:40:29 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 09:44:08 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,23 @@ void	free_map(char **array)
 
 void	terminate_free(t_solong *solong, int error, char *message)
 {
+	int	moves;
+
+	moves = solong->moves;
 	if (solong->map)
 		free_map(solong->map);
 	delete_textures(solong);
 	delete_images(solong);
 	if (solong->mlx)
 		mlx_terminate(solong->mlx);
-	if (error)
+	if (error && message)
 	{
 		perror(message);
 		exit(EXIT_FAILURE);
 	}
-	else
+	else if (message)
+	{
+		ft_printf("%sTotal moves: %d", message, moves);
 		exit(EXIT_SUCCESS);
+	}
 }
