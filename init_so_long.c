@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:41:03 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/11 12:02:17 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:52:35 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ int	get_height(char **map, int tile)
 void	start_init(t_solong *solong)
 {
 	solong->mlx = NULL;
-	solong->p_text = NULL;
-	solong->f_text = NULL;
-	solong->w_text = NULL;
-	solong->e_text = NULL;
-	solong->c_text = NULL;
 	solong->p_img = NULL;
 	solong->f_img = NULL;
 	solong->w_img = NULL;
@@ -57,17 +52,21 @@ void	start_init(t_solong *solong)
 	solong->can_exit = false;
 }
 
-bool	init_solong(t_solong *solong, char *path_to_map, int tile_size)
+bool	init_solong(t_solong *solong, char *path_to_map)
 {
 	start_init(solong);
 	solong->map = create_map(path_to_map);
-	if (!solong->map)
+	if (!solong->map || !solong->map[0])
+	{
+		ft_printf("Error\nMap creation incomplete.\n");
 		return (false);
+	}
 	if (!valid_map(solong) || !playable_map(solong->map))
 		return (false);
-	solong->width = get_width(solong->map, tile_size);
-	solong->height = get_height(solong->map, tile_size);
-	solong->mlx = mlx_init(solong->width, solong->height, "so_long", true);
+	solong->width = get_width(solong->map, TILE);
+	solong->height = get_height(solong->map, TILE);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	solong->mlx = mlx_init(solong->width, solong->height, "🐷+🍕=❤️‍🔥", true);
 	if (!solong->mlx)
 		return (false);
 	solong->p_y = get_player_y(solong->map);

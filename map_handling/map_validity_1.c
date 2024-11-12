@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validity.c                                     :+:      :+:    :+:   */
+/*   map_validity_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 11:28:18 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/11 11:57:23 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:43:11 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	one_exit(char **map)
 		ft_printf("Error\nThere isn't an exit, tough luck...\n");
 	if (e > 1)
 	{
-		ft_printf("Error\nThere's %d exits instead of one.", e);
+		ft_printf("Error\nThere's %d exits instead of one.\n", e);
 		return (0);
 	}
 	return (e);
@@ -56,20 +56,19 @@ static int	one_player(char **map)
 		{
 			if (map[i][j] == 'P')
 				p++;
-			if (p > 1)
-			{
-				ft_printf("Error\nThere's %d players, ", p);
-				ft_printf("while there should be only 1.\n");
-				return (0);
-			}
 			j++;
 		}
 		i++;
 	}
+	if (p > 1 || p == 0)
+	{
+		ft_printf("Error\nThere's %d players, instead of 1\n", p);
+		return (0);
+	}
 	return (p);
 }
 
-static int	collectives(t_solong *solong)
+static int	collectibles(t_solong *solong)
 {
 	int	i;
 	int	j;
@@ -95,8 +94,6 @@ static int	rectangular(char **map)
 	int	len;
 	int	i;
 
-	if (!map || !map[0])
-		return (0);
 	i = 0;
 	len = ft_strlen(map[i]);
 	while (map[i] != NULL)
@@ -113,16 +110,19 @@ static int	rectangular(char **map)
 		ft_printf("Error\nMap is too short.\n");
 		return (0);
 	}
+	if (len < 3)
+	{
+		ft_printf("Error\nMap width is too small.");
+		return (0);
+	}
 	return (1);
 }
 
-int	valid_map(t_solong *solong)
+bool	valid_map(t_solong *solong)
 {
-	int	ret;
-
-	ret = 1;
-	if (!rectangular(solong->map) || !collectives(solong)
-		|| !one_player(solong->map) || !one_exit(solong->map))
-		ret = 0;
-	return (ret);
+	if (!rectangular(solong->map) || !collectibles(solong)
+		|| !one_player(solong->map) || !one_exit(solong->map)
+		|| !legit_symbols(solong->map) || !closed_walls(solong->map))
+		return (false);
+	return (true);
 }

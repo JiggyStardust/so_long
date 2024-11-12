@@ -6,7 +6,7 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 10:30:21 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/11 12:15:21 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:01:52 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	handle_move_logic(t_solong *solong, int x_new, int y_new)
 	if (solong->coll == 0)
 		solong->can_exit = true;
 	if (solong->can_exit && y_new == solong->e_y && x_new == solong->e_x)
-		terminate_free(solong, 0, "Congraz, you won!\n\n\nWanna play again?\n");
+		terminate_free(solong, 0, "\nCongraz, you won!🎂\n");
 	return (true);
 }
 

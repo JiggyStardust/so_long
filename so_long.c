@@ -6,12 +6,11 @@
 /*   By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:34:24 by sniemela          #+#    #+#             */
-/*   Updated: 2024/11/11 12:05:41 by sniemela         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:03:01 by sniemela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdio.h>
 
 void	close_window(void *param)
 {
@@ -53,13 +52,14 @@ int	main(int ac, char **av)
 	t_solong	solong;
 
 	if (ac != 2)
+	{
+		ft_printf("Error\nWrong number of arguments.\n");
 		return (0);
-	if (!init_solong(&solong, av[1], TILE))
-		terminate_free(&solong, 1, "Error\nCannot initialize the game.\n");
-	if (!setup_textures(&solong))
-		terminate_free(&solong, 1, "Error\nProblem with loading textures.\n");
+	}
+	if (!init_solong(&solong, av[1]))
+		terminate_free(&solong, 1, "Couldn't initialize the game.\n");
 	if (!setup_images(&solong))
-		terminate_free(&solong, 1, "Error\nCant convert textures to images.\n");
+		terminate_free(&solong, 1, "Error\nProblem with setup_images.\n");
 	if (!images_to_window(&solong))
 		terminate_free(&solong, 1, "Error\nProblem with opening the window.\n");
 	mlx_key_hook(solong.mlx, key_hook, &solong);

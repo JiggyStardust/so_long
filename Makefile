@@ -6,7 +6,7 @@
 #    By: sniemela <sniemela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 13:33:02 by sniemela          #+#    #+#              #
-#    Updated: 2024/11/11 12:13:13 by sniemela         ###   ########.fr        #
+#    Updated: 2024/11/12 13:31:06 by sniemela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,12 @@ CC = gcc
 
 SOURCES =  so_long.c \
 			get_coordinates.c \
-			free_n_delete/delete_images.c \
-			free_n_delete/terminate_n_free.c \
+			terminate_n_free.c \
 			image_handling.c \
 			init_so_long.c \
 			map_handling/construct_map.c \
-			map_handling/map_validity.c \
+			map_handling/map_validity_1.c \
+			map_handling/map_validity_2.c \
 			map_handling/map_playable.c \
 			map_handling/flood_map.c \
 			moving.c \
